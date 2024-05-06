@@ -33,6 +33,15 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.save(activity);
     }
 
+    public Activity updateActivity(Long id, ActivityDTO activityDTO){
+        Optional<Activity> optionalActivity = activityRepository.findById(id);
+        if(optionalActivity.isPresent()){
+            return saveOrUpdateActivity(optionalActivity.get(), activityDTO);
+        } else {
+            throw new EntityNotFoundException("Activity is not present with id " + id);
+        }
+    }
+
     public List<Activity> getAllActivities() {
         return activityRepository.findAll().stream()
                 .sorted(Comparator.comparing(Activity::getId).reversed())
@@ -45,6 +54,15 @@ public class ActivityServiceImpl implements ActivityService {
             return optionalActivity.get();
         } else {
             throw new EntityNotFoundException("Activity not found with ID" + id);
+        }
+    }
+
+    public void deleteActivity(Long id){
+        Optional<Activity> optionalActivity = activityRepository.findById(id);
+        if(optionalActivity.isPresent()) {
+            activityRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Activity is not present with id " + id);
         }
     }
 }

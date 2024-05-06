@@ -13,4 +13,7 @@ public interface ActivityService {
 
     Activity getActivityById(Long id);
 
+    Activity updateActivity(Long id, ActivityDTO activityDTO);
+
+    void deleteActivity(Long id);
 }

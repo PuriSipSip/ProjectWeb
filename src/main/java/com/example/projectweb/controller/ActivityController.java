@@ -43,4 +43,27 @@ public class ActivityController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateActivity(@PathVariable Long id, @RequestBody ActivityDTO dto){
+        try{
+            return ResponseEntity.ok(activityService.updateActivity(id,dto));
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteActivity(@PathVariable Long id){
+        try{
+            activityService.deleteActivity(id);
+            return ResponseEntity.ok(null);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
 }
